@@ -2075,12 +2075,14 @@ def create(vm_=None, call=None):
             'ex_can_ip_forward': config.get_cloud_config_value(
                 'ip_forwarding', vm_, __opts__, default=False),
             'ex_boot_disk_size_gb': config.get_cloud_config_value(
-                'ex_boot_disk_size_gb', vm_, __opts__, default=True),
+                'ex_boot_disk_size_gb', vm_, __opts__, default=None),
+            'ex_with_local_ssd': config.get_cloud_config_value(
+                'ex_with_local_ssd', vm_, __opts__, default=False),
         })
-        if kwargs.get('ex_disk_type') not in {'pd-standard', 'pd-ssd', 'local-ssd'}:
+        if kwargs.get('ex_disk_type') not in {'pd-standard', 'pd-ssd'}:
             raise SaltCloudSystemExit(
                 'The value of \'ex_disk_type\' needs to be one of: '
-                '\'pd-standard\', \'pd-ssd\', \'local-ssd\''
+                '\'pd-standard\', \'pd-ssd\''
             )
 
     log.info('Creating GCE instance {0} in {1}'.format(vm_['name'],
